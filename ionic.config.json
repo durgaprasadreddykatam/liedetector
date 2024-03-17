@@ -1,0 +1,7 @@
+{
+  "name": "liedetector",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "react-vite"
+}
