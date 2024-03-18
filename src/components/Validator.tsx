@@ -1,36 +1,66 @@
-import React from 'react';
+import React, { ReactNode,useState,useEffect } from 'react';
 import {jwtDecode} from 'jwt-decode'; 
+import { Preferences } from '@capacitor/preferences';
 import { useIonRouter } from '@ionic/react';
 
-const Validator: React.FC<React.ReactNode> = (children) => { 
-    const router=useIonRouter();
-    React.useEffect(() => {
-        const [formData, setFormData] = React.useState({
-            firstName: '',
-            lastName: '',
-            email: ''
-        });
 
-        const token = localStorage.getItem('token');
-        if (token && typeof token === 'string') {
+interface ValidatorProps {
+    children: ReactNode;
+  }
+
+const Validator: React.FC<ValidatorProps> = ({children}) => { 
+    const router=useIonRouter();
+    const [isLoading, setIsLoading] = useState(true);
+    const [decodedToken,setDecodedToken] = useState({
+        userId:'',
+        firstName: '',
+        lastName: '',
+        email: '',
+        expiry:''
+    });
+    const getToken = async () => {
+        const token=await Preferences.get({ key: 'token' });
+        if (token.value && typeof token.value === 'string') {
+            
             try {
-                const decoded: { firstname: string, lastname: string, email: string } = jwtDecode(token);
-                setFormData({
+                const decoded: any = jwtDecode(token.value);
+                setDecodedToken({
+                    userId:decoded.userId,
                     firstName: decoded.firstname,
                     lastName: decoded.lastname,
-                    email: decoded.email
+                    email: decoded.email,
+                    expiry:decoded.exp
+
                 });
+                setIsLoading(false);
             } catch (error) {
                 console.error('Error decoding token:', error);
             }
-        } else {
-            router.push("/",'root')
-        }
-    }, [localStorage]); 
+         }
+            else{
+                setIsLoading(false);
+            }
+    
+}
+    
+    useEffect( () => {
+        getToken();
+    },[])
+    
+    if (isLoading) {
+        return <div>Loading...</div>;
+    }
+    
 
     return (
         <div>
-            {children} 
+            {decodedToken.userId ? (
+                <div>{children}</div>
+            ) : (
+                <div>
+                    <span>Unauthorized</span>
+                </div>
+            )}
         </div>
     );
 };

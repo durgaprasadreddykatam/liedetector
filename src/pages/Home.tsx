@@ -3,7 +3,22 @@ import React from 'react';
 import Homeicon from '../../public/favicon.png';
 import { personOutline} from 'ionicons/icons';
 
+
 const Home: React.FC = () => {
+    // Get the current date in milliseconds since Unix epoch
+const currentDateInMillis = new Date().getTime();
+
+// Convert milliseconds to seconds
+const currentDateInSeconds = Math.floor(currentDateInMillis / 1000);
+
+console.log(currentDateInSeconds,':Current date in seconds since Unix epoch:', currentDateInSeconds);
+
+   
+   
+    
+    
+
+    
     return (
         <IonPage>
             <IonHeader  className='flex justify-center items-center'>
@@ -16,7 +31,7 @@ const Home: React.FC = () => {
                     </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
-                UI goes here...
+                
             </IonContent>
         </IonPage>
     );

@@ -3,8 +3,11 @@ import React from 'react';
 import {logInOutline, personCircleOutline} from 'ionicons/icons'
 import LieDetectorLogo from '../../public/assets/logowithname.png'
 import axios from 'axios';
+import config from '../config';
+import { Preferences } from '@capacitor/preferences';
 
 const Login: React.FC = () => {
+ 
 
   const router=useIonRouter();
   const [formData, setFormData] = React.useState({
@@ -39,13 +42,17 @@ const Login: React.FC = () => {
       return;
   }
   else {
-    axios.post(`http://localhost:8080/api/users/login`, {
+    axios.post(`${config.API_ADDRESS}/login`, {
       "email": formData.email,
       "password": formData.password
     })
     .then(response => {
       if(response.status === 200){
-        localStorage.setItem('token', response.data.token);
+        Preferences.set({
+          key:'token',
+          value:response.data.token
+        })
+        // localStorage.setItem('token', response.data.token);
         router.push('/home',"forward")
       } 
     })
@@ -107,7 +114,7 @@ const Login: React.FC = () => {
                       </IonButton>
                       </form>
 
-                      <IonButton routerLink='/home' color={'fifth'}   className='mt-5' type='submit' expand='block'>
+                      <IonButton routerLink='/register' color={'fifth'}   className='mt-5' type='submit' expand='block'>
                       <span className='text-white'>Create Account</span>
                       <IonIcon icon={personCircleOutline} slot='end'></IonIcon>
                       </IonButton>

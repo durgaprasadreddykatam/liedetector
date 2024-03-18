@@ -2,6 +2,8 @@ import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonIcon, Ion
 import React from 'react';
 import { checkmarkDone,arrowBackOutline} from 'ionicons/icons'
 import axios from 'axios';
+import config from '../config';
+import { Preferences } from '@capacitor/preferences';
 
 const Register: React.FC = () => {
     const router=useIonRouter();
@@ -40,7 +42,7 @@ const Register: React.FC = () => {
         return;
     }
     else{
-        axios.post(`http://localhost:8080/api/users/register`, {
+        axios.post(`${config.API_ADDRESS}/register`, {
         "firstName": formData.firstName,
         "lastName": formData.lastName,
         "email": formData.email,
@@ -48,7 +50,11 @@ const Register: React.FC = () => {
 })
 .then(response => {
 if(response.status === 200){
-localStorage.setItem('token', response.data.token);
+    Preferences.set({
+        key:'token',
+        value:response.data.token
+    })
+// localStorage.setItem('token', response.data.token);
 router.push('/home','forward');
 }
 })

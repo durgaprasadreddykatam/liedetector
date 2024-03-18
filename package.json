@@ -18,6 +18,7 @@
     "@capacitor/haptics": "next",
     "@capacitor/ios": "next",
     "@capacitor/keyboard": "next",
+    "@capacitor/preferences": "^5.0.7",
     "@capacitor/status-bar": "next",
     "@ionic/react": "^7.0.0",
     "@ionic/react-router": "^7.0.0",
