@@ -20,6 +20,15 @@ http://ionicframework.com/docs/theming/ */
 	--ion-color-shade: var(--ion-color-fifth-shade);
 	--ion-color-tint: var(--ion-color-fifth-tint);
 }
+.ion-color-sixth {
+	--ion-color-base: var(--ion-color-sixth);
+	--ion-color-base-rgb: var(--ion-color-sixth-rgb);
+	--ion-color-contrast: var(--ion-color-sixth-contrast);
+	--ion-color-contrast-rgb: var(--ion-color-sixth-contrast-rgb);
+	--ion-color-shade: var(--ion-color-sixth-shade);
+	--ion-color-tint: var(--ion-color-sixth-tint);
+}
+
 :root {
   /** primary **/
   --ion-color-primary: #3880ff;
@@ -59,6 +68,13 @@ http://ionicframework.com/docs/theming/ */
 	--ion-color-fifth-contrast-rgb: 255,255,255;
 	--ion-color-fifth-shade: #6f1eb5;
 	--ion-color-fifth-tint: #8b38d3;
+/** Sixth **/
+--ion-color-sixth: #5799FE;
+	--ion-color-sixth-rgb: 87,153,254;
+	--ion-color-sixth-contrast: #000000;
+	--ion-color-sixth-contrast-rgb: 0,0,0;
+	--ion-color-sixth-shade: #4d87e0;
+	--ion-color-sixth-tint: #68a3fe;
 
   /** success **/
   --ion-color-success: #2dd36f;

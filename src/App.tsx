@@ -23,6 +23,8 @@ import '@ionic/react/css/typography.css';
 /* Theme variables */
 import './theme/variables.css';
 import Register from './pages/Register';
+import Home from './pages/Home';
+import Update from './pages/Update';
 
 setupIonicReact();
 
@@ -33,8 +35,17 @@ const App: React.FC = () => (
         <Route exact path="/">
           <Login/>
         </Route>
+        <Route exact path="/login">
+          <Login/>
+        </Route>
         <Route exact path="/Register">
           <Register/>
+        </Route>
+        <Route exact path="/home">
+          <Home/>
+        </Route>
+        <Route exact path="/update">
+          <Update/>
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

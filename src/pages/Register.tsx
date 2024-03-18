@@ -49,7 +49,7 @@ const Register: React.FC = () => {
 .then(response => {
 if(response.status === 200){
 localStorage.setItem('token', response.data.token);
-router.push('/Home','forward');
+router.push('/home','forward');
 }
 })
 .catch(error => {

@@ -38,7 +38,7 @@ const Login: React.FC = () => {
       alert('Password should be minimum 8 characters');
       return;
   }
-  else{
+  else {
     axios.post(`http://localhost:8080/api/users/login`, {
       "email": formData.email,
       "password": formData.password
@@ -46,23 +46,20 @@ const Login: React.FC = () => {
     .then(response => {
       if(response.status === 200){
         localStorage.setItem('token', response.data.token);
-        router.push('/Home',"forward")
+        router.push('/home',"forward")
       } 
     })
     .catch(error => {
       if(error.message === "Request failed with status code 401"){
         alert("Invalid Email/password")
       }
-      else{
+      else {
           alert("Something Went Wrong.Please try after Sometime")
       }
       
       
     });
   }
-    
-    
-    // router.push('/home','root')
   }
   
 
@@ -110,7 +107,7 @@ const Login: React.FC = () => {
                       </IonButton>
                       </form>
 
-                      <IonButton routerLink='/register' color={'fifth'}   className='mt-5' type='submit' expand='block'>
+                      <IonButton routerLink='/home' color={'fifth'}   className='mt-5' type='submit' expand='block'>
                       <span className='text-white'>Create Account</span>
                       <IonIcon icon={personCircleOutline} slot='end'></IonIcon>
                       </IonButton>
