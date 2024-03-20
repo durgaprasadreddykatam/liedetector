@@ -1,13 +1,13 @@
 import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import React from 'react';
 
-const List: React.FC = () => {
+const TestNow: React.FC = () => {
 
     return (
         <IonPage>
             <IonHeader>
                 <IonToolbar>
-                    <IonTitle>Page Title</IonTitle>
+                    <IonTitle>TestNow</IonTitle>
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
@@ -17,4 +17,4 @@ const List: React.FC = () => {
     );
 };
 
-export default List;
+export default TestNow;

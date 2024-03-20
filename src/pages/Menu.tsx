@@ -1,14 +1,14 @@
 import { IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonPage, IonRouterOutlet, IonTitle, IonToolbar } from '@ionic/react';
 import React from 'react';
 import { Route } from 'react-router';
-import List from './List';
+
 import { analyticsOutline, clipboardOutline, compass, home, logOutOutline, personOutline, stopwatch, tvOutline } from 'ionicons/icons';
 
 const Menu: React.FC = () => {
 
     return (
             <>
-            <IonPage>
+            
                 <IonMenu contentId="main-content">
                     <IonHeader >
                         <IonToolbar color='tertiary'>
@@ -46,7 +46,7 @@ const Menu: React.FC = () => {
                         </div>
                     </IonContent>
                 </IonMenu>
-            </IonPage>
+            
               
             </>
           );

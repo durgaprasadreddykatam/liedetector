@@ -17,7 +17,7 @@ const Home: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
     
     return (
         <>
-        <Menu/>
+        <Menu />
         
         <IonPage id="main-content">
             
