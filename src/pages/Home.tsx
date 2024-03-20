@@ -1,18 +1,14 @@
-import { IonContent, IonHeader, IonIcon, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import React from 'react';
 import Homeicon from '../../public/favicon.png';
 import { personOutline} from 'ionicons/icons';
+import Menu from './Menu';
 
 
-const Home: React.FC = () => {
-    // Get the current date in milliseconds since Unix epoch
-const currentDateInMillis = new Date().getTime();
-
-// Convert milliseconds to seconds
-const currentDateInSeconds = Math.floor(currentDateInMillis / 1000);
-
-console.log(currentDateInSeconds,':Current date in seconds since Unix epoch:', currentDateInSeconds);
-
+const Home: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
+   
+    const { userId, firstName, lastName, email, expiry } = decodedToken;
+    const[intro,setIntro] =React.useState(true);
    
    
     
@@ -20,20 +16,38 @@ console.log(currentDateInSeconds,':Current date in seconds since Unix epoch:', c
 
     
     return (
-        <IonPage>
+        <>
+        <Menu/>
+        
+        <IonPage id="main-content">
+            
             <IonHeader  className='flex justify-center items-center'>
                 <IonToolbar color={'primary'}>
                     {/* <img className='h-10' src={Homeicon} alt='Home' /> */}
+                    <IonButtons slot="start">
+                        <IonMenuButton></IonMenuButton>
+                    </IonButtons>
                     <IonTitle className='flex items-center justify-between'>
                         <span>Lie Detector</span>
-                        <IonIcon icon={personOutline}></IonIcon>
                     </IonTitle>
                     </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
+                <div className='flex justify-center mt-4 font-bold'>
+                    <div className='font-xl text-lg'>Welcome {firstName} {lastName}</div>
+                </div>
+                {/* Intro Display */}
+
+                {intro &&
+                    <div>
+
+                    </div>
+                }
                 
             </IonContent>
-        </IonPage>
+        </IonPage></>
+        
+        
     );
 };
 

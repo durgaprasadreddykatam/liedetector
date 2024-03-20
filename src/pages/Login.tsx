@@ -1,7 +1,7 @@
-import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonIcon, IonInput, IonPage, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
+import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonPage, IonRow, IonTitle, IonToolbar, useIonLoading, useIonRouter } from '@ionic/react';
 import React from 'react';
 import {logInOutline, personCircleOutline} from 'ionicons/icons'
-import LieDetectorLogo from '../../public/assets/logowithname.png'
+import LieDetectorLogo from '../assets/logowithname.png'
 import axios from 'axios';
 import config from '../config';
 import { Preferences } from '@capacitor/preferences';
@@ -9,19 +9,19 @@ import { Preferences } from '@capacitor/preferences';
 const Login: React.FC = () => {
  
 
-  const router=useIonRouter();
+  const router = useIonRouter();
+  const [present, dismiss] = useIonLoading(); 
   const [formData, setFormData] = React.useState({
     email: '',
     password: ''
   });
-  function handleFormChange(e:any) {
-    setFormData(prevFormData =>{
+  function handleFormChange(e: any) {
+    setFormData(prevFormData => {
       return {
         ...prevFormData,
-        [e.target.name]:e.target.value
+        [e.target.name]: e.target.value
       }
     })
-
   }
  
   
@@ -42,6 +42,7 @@ const Login: React.FC = () => {
       return;
   }
   else {
+    present("Logging in ....")
     axios.post(`${config.API_ADDRESS}/login`, {
       "email": formData.email,
       "password": formData.password
@@ -52,11 +53,17 @@ const Login: React.FC = () => {
           key:'token',
           value:response.data.token
         })
+        dismiss();
         // localStorage.setItem('token', response.data.token);
         router.push('/home',"forward")
       } 
-    })
+      
+    }
+    )
+    
+    
     .catch(error => {
+      dismiss();
       if(error.message === "Request failed with status code 401"){
         alert("Invalid Email/password")
       }
@@ -77,13 +84,14 @@ const Login: React.FC = () => {
                     <IonTitle >Lie Detector</IonTitle>
                 </IonToolbar>
             </IonHeader>
-            <IonContent className="ion-padding" scrollY={false}>
-              <div className='flex justify-center'>
-              <img className='h-20 -ml-4 mt-10 items-center' src={LieDetectorLogo} alt='Lie Detector Logo'></img>
-              </div>
-              
-
-                <IonCard>
+            <IonContent className="ion-padding" scrollY={false} >
+                  <div className='flex justify-center'>
+                      <img className='h-20 -ml-4 mt-10 items-center' src={LieDetectorLogo} alt='Lie Detector Logo'></img>
+                  </div>
+              <IonGrid fixed>
+                <IonRow className='flex items-center justify-center'>
+                  <IonCol size='12' sizeMd='8' sizeLg='6' sizeXl='6'>
+                  <IonCard>
                   <IonCardContent>
                     <form onSubmit={SubmitformData}>
         
@@ -123,6 +131,9 @@ const Login: React.FC = () => {
               
                   </IonCardContent>
                 </IonCard>
+                  </IonCol>
+                </IonRow>
+              </IonGrid>
             </IonContent>
         </IonPage>
     );

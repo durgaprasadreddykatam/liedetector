@@ -26,6 +26,7 @@ import './theme/variables.css';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import Update from './pages/Update';
+import Menu from './pages/Menu';
 
 setupIonicReact();
 
@@ -44,7 +45,7 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/home">
           <Validator>
-            <Home/>
+            <Home decodedToken={undefined}/>
           </Validator>
           
         </Route>

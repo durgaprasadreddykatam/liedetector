@@ -43,19 +43,25 @@ const Validator: React.FC<ValidatorProps> = ({children}) => {
     
 }
     
-    useEffect( () => {
+    useEffect(() => {
         getToken();
-    },[])
-    
+    }, [])
+
     if (isLoading) {
         return <div>Loading...</div>;
     }
+    const childrenWithProps = React.Children.map(children, child => {
+        if (React.isValidElement(child)) {
+            return React.cloneElement(child, { decodedToken: decodedToken } as { decodedToken: typeof decodedToken }); 
+        }
+        return child;
+    });
     
 
     return (
         <div>
             {decodedToken.userId ? (
-                <div>{children}</div>
+                <div>{childrenWithProps}</div>
             ) : (
                 <div>
                     <span>Unauthorized</span>
