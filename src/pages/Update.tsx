@@ -81,7 +81,7 @@ const Update: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
                 })
                 .then(response => {
                     if(response.status === 200){
-                        Preferences.
+                        
                         dismiss();
                         alert('User Details Updated Sucessfully')
                     router.push('/home','root');
