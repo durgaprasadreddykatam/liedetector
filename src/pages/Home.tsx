@@ -3,12 +3,21 @@ import React from 'react';
 import Homeicon from '../../public/favicon.png';
 import { personOutline} from 'ionicons/icons';
 import Menu from './Menu';
+import Intro from '../components/Intro';
 
 
 const Home: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
    
     const { userId, firstName, lastName, email, expiry } = decodedToken;
     const[intro,setIntro] =React.useState(true);
+
+    const finishintro =async () =>{
+        console.log("Finish")
+        setIntro(false);
+
+        // Update in db that user has seen intro
+        // push the user to Take initial Test
+    }
    
    
     
@@ -39,9 +48,7 @@ const Home: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
                 {/* Intro Display */}
 
                 {intro &&
-                    <div>
-
-                    </div>
+                    <Intro onFinish={finishintro}/>
                 }
                 
             </IonContent>

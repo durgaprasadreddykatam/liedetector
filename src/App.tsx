@@ -26,7 +26,8 @@ import './theme/variables.css';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import Update from './pages/Update';
-import Menu from './pages/Menu';
+import Viewintro from './pages/Viewintro';
+
 
 setupIonicReact();
 
@@ -49,8 +50,15 @@ const App: React.FC = () => (
           </Validator>
           
         </Route>
-        <Route exact path="/update">
-          <Update/>
+        <Route exact path="/Account">
+        <Validator>
+            <Update decodedToken={undefined}/>
+          </Validator>
+        </Route>
+        <Route exact path="/viewintro">
+        <Validator>
+            <Viewintro/>
+          </Validator>
         </Route>
       </IonRouterOutlet>
     </IonReactRouter>

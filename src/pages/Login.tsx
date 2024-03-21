@@ -54,7 +54,6 @@ const Login: React.FC = () => {
           value:response.data.token
         })
         dismiss();
-        // localStorage.setItem('token', response.data.token);
         router.push('/home',"forward")
       } 
       
