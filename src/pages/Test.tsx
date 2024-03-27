@@ -1,23 +1,35 @@
-import { IonButton, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonItem, IonList, IonPage, IonRow, IonSelect, IonSelectOption, IonText, IonTitle, IonToolbar } from '@ionic/react';
-import React from 'react';
+import { IonButton, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonItem, IonList, IonPage, IonRow, IonSelect, IonSelectOption, IonText, IonTitle, IonToolbar, useIonLoading,  IonRouterContext, useIonRouter  } from '@ionic/react';
+import axios from 'axios';
+import React, { useState } from 'react';
+import config from '../config';
+import { useHistory } from 'react-router-dom';
+import { Preferences } from '@capacitor/preferences';
+import { useStorage } from '../hooks/useStorage';
 
-const Test: React.FC = () => {
-
+const Test: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
+    const { userId, firstName, lastName, email, expiry } = decodedToken;
     const[deviceselected,setDeveiceSelected]=React.useState(false);
     const[connected,setConnected] =React.useState(true);
     const[showQuestionaire,setShowQuestionaire] =React.useState(false);
     const[questionaireSelected,setQuestionaireSelected] =React.useState(false);
+    const [questionsFormat,setQuestionsFormat] =useState(null);
+    const [present, dismiss] = useIonLoading(); 
+    const { storeResponse } = useStorage();
+    const router =useIonRouter();
+    
 
     function handleDeviceSelection(event:CustomEvent){
         if(event.detail.value !=undefined){
-            setDeveiceSelected(true)
+            setDeveiceSelected(true);
+            
         }
 
     }
 
     function handleQuestionSelection(event:CustomEvent){
         if(event.detail.value !=undefined){
-            setQuestionaireSelected(true)
+            setQuestionaireSelected(true);
+            setQuestionsFormat(event.detail.value)
         }
 
     }
@@ -26,6 +38,31 @@ const Test: React.FC = () => {
         // handle Device Connection Here and Show Device Connection Status
     }
     function continuetoAnswer(){
+        if(questionsFormat!=undefined){
+            const currentTimeStamp = new Date();
+            const formattedTimeStamp = currentTimeStamp.toISOString().slice(0, 19).replace('T', ' ');
+    
+            present("Updating User Details and Password")
+                axios.post(`${config.API_ADDRESS1}/generateSession`, {
+                    "userId":userId,
+                    "startTimeStamp":formattedTimeStamp,
+                    "type":questionsFormat,
+                    "count":10
+                })
+                .then(response => {
+                    if(response.status === 200){
+                        storeResponse(response.data)
+                        dismiss();
+                        router.push("/taketestnow",'root')
+
+                    }
+                    })
+                    .catch(error => {
+                        dismiss();
+                        alert("Something Went Wrong.Please try after Sometime")
+                    });
+
+        }
 
     }
     return (
@@ -60,9 +97,9 @@ const Test: React.FC = () => {
                                 <IonSelect onIonChange={handleQuestionSelection} placeholder="Select a Device">
                                 <div slot="label">Select Format <IonText color="danger">(Required)</IonText>
                                 </div>
-                                <IonSelectOption value="Picture">Pictures</IonSelectOption>
-                                <IonSelectOption value="pics">Random Questions</IonSelectOption>
-                                <IonSelectOption value="calc">Calculative</IonSelectOption>
+                                <IonSelectOption value="Image">Pictures</IonSelectOption>
+                                <IonSelectOption value="Random">Random Questions</IonSelectOption>
+                                <IonSelectOption value="Arithmetic">Calculative</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
                             </IonList>

@@ -28,6 +28,7 @@ import Home from './pages/Home';
 import Update from './pages/Update';
 import Viewintro from './pages/Viewintro';
 import Test from './pages/Test';
+import TestNow from './components/TestNow';
 
 
 setupIonicReact();
@@ -51,10 +52,15 @@ const App: React.FC = () => (
           </Validator>
         </Route>
         <Route exact path="/taketest">
+          <Validator>
+            <Test decodedToken={undefined}/>
+          </Validator>
+        </Route>  
+        <Route exact path="/taketestnow">
+          <TestNow/>
+        </Route> 
           
-            <Test/>
-          
-        </Route>
+        
 
         <Route exact path="/Account">
         <Validator>

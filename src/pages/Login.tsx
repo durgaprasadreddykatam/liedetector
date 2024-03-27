@@ -24,10 +24,7 @@ const Login: React.FC = () => {
     })
   }
  
-  
-  
-
-  function SubmitformData(e:any){
+function SubmitformData(e:any){
     e.preventDefault();
     if(formData.email === '' || formData.password === ''){
       alert('All fields are required');
@@ -56,9 +53,7 @@ const Login: React.FC = () => {
         dismiss();
         router.push('/home',"forward")
       } 
-      
-    }
-    )
+    })
     
     
     .catch(error => {
@@ -125,10 +120,7 @@ const Login: React.FC = () => {
                       <span className='text-white'>Create Account</span>
                       <IonIcon icon={personCircleOutline} slot='end'></IonIcon>
                       </IonButton>
-                    
-
-              
-                  </IonCardContent>
+                    </IonCardContent>
                 </IonCard>
                   </IonCol>
                 </IonRow>
