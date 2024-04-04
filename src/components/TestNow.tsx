@@ -40,6 +40,7 @@ const TestNow: React.FC = () => {
             "questionEndTime": ""
         
     }]);
+    
     useEffect(() => {
         const fetchData = async () => {
             const storedResponse = await getStoredResponse();
@@ -53,6 +54,8 @@ const TestNow: React.FC = () => {
         }
         fetchData();
     }, []);
+
+    
 
     const handleInputChange = (e:any) => {
         setAnswer(e.target.value);
