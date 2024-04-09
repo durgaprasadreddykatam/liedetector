@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import config from '../config';
 import { useHistory } from 'react-router-dom';
 import { Preferences } from '@capacitor/preferences';
-import { useStorage } from '../hooks/useStorage';
+
 
 const Test: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
     const { userId, firstName, lastName, email, expiry } = decodedToken;
@@ -14,7 +14,6 @@ const Test: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
     const[questionaireSelected,setQuestionaireSelected] =React.useState(false);
     const [questionsFormat,setQuestionsFormat] =useState(null);
     const [present, dismiss] = useIonLoading(); 
-    const { storeResponse } = useStorage();
     const router =useIonRouter();
     
 
@@ -51,7 +50,14 @@ const Test: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
                 })
                 .then(response => {
                     if(response.status === 200){
-                        storeResponse(response.data)
+                        Preferences.set({
+                            key:"questions",
+                            value:JSON.stringify({
+                                 questions:response.data.questions,
+                                 userId:userId,
+                                 sessionId:response.data.sessionId
+                            })
+                        })
                         dismiss();
                         router.push("/taketestnow",'root')
 

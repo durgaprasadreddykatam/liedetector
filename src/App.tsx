@@ -4,6 +4,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import Login from './pages/Login';
 import '../index.css'
 import Validator from './components/Validator';
+import ToBeDeleteted from './pages/ToBeDeleteted';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -29,6 +30,7 @@ import Update from './pages/Update';
 import Viewintro from './pages/Viewintro';
 import Test from './pages/Test';
 import TestNow from './components/TestNow';
+import BluetoothDevices from './components/ BluetoothDevices';
 
 
 setupIonicReact();
@@ -37,9 +39,9 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
-        <Route exact path="/">
+        {/* <Route exact path="/">
           <Login/>
-        </Route>
+        </Route>  */}
         <Route exact path="/login">
           <Login/>
         </Route>
@@ -59,6 +61,17 @@ const App: React.FC = () => (
         <Route exact path="/taketestnow">
           <TestNow/>
         </Route> 
+        {/* //Testing a Bluetooth Device */}
+        {/* <Route exact path="/">
+          <BluetoothDevices/>
+        </Route> */}
+
+        {/* //Testing Page  */}
+        <Route exact path="/">
+          <ToBeDeleteted/>
+        </Route>
+        
+        
           
         
 

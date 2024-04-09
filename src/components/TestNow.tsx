@@ -1,22 +1,21 @@
 import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonPage, IonRow, IonTitle, IonToolbar, useIonLoading, useIonRouter } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
-import { useStorage } from '../hooks/useStorage';
 import Questions from './Questions';
 import axios from 'axios';
 import config from '../config';
+import { Preferences } from '@capacitor/preferences';
 
-"use Client";
+
 
 
 const TestNow: React.FC = () => {
     const router =useIonRouter();
-    const { getStoredResponse } = useStorage();
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const [answer, setAnswer] = useState<string>('');
     const[timeStamp,setTimeStamp]=useState(new Date());
     const [present, dismiss] = useIonLoading(); 
-    const [questions,setquestions] =useState([{
+    const [questions,setQuestions] =useState([{
         question:"",
         questionId:"",
         questionType:"",
@@ -41,22 +40,25 @@ const TestNow: React.FC = () => {
         
     }]);
     
-    useEffect(() => {
         const fetchData = async () => {
-            const storedResponse = await getStoredResponse();
-            if (storedResponse.length > 0) {
-                setquestions(storedResponse[0].questions);
-                setData({
-                    userId:storedResponse[0].userId,
-                    sessionId:storedResponse[0].sessionId
-                })
+            present("Fetching data")
+            const ret = await Preferences.get({ key: 'questions' });
+            if(ret.value && typeof ret.value==='string'){
+                const storedData=JSON.parse(ret.value);
+                    setQuestions(storedData.questions);
+                    setData({
+                        userId:storedData.userId,
+                        sessionId:storedData.sessionId
+                    })
+                
             }
+            dismiss();
         }
-        fetchData();
-    }, []);
-
-    
-
+        useEffect(()=>{
+            fetchData();
+        },[])
+  
+ 
     const handleInputChange = (e:any) => {
         setAnswer(e.target.value);
     };

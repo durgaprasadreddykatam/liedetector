@@ -12,7 +12,6 @@ const Home: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
     const[intro,setIntro] =React.useState(true);
 
     const finishintro =async () =>{
-        console.log("Finish")
         setIntro(false);
 
         // Update in db that user has seen intro
