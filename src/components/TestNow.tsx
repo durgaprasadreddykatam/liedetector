@@ -5,6 +5,7 @@ import Questions from './Questions';
 import axios from 'axios';
 import config from '../config';
 import { Preferences } from '@capacitor/preferences';
+import BackgroundLogger from './BackgroundLogger';
 
 
 
@@ -15,6 +16,7 @@ const TestNow: React.FC = () => {
     const [answer, setAnswer] = useState<string>('');
     const[timeStamp,setTimeStamp]=useState(new Date());
     const [present, dismiss] = useIonLoading(); 
+    const [mountbackgroundworker,setMountBackGroundWorker]=useState(true);
     const [questions,setQuestions] =useState([{
         question:"",
         questionId:"",
@@ -50,9 +52,10 @@ const TestNow: React.FC = () => {
                         userId:storedData.userId,
                         sessionId:storedData.sessionId
                     })
+                    dismiss();
                 
             }
-            dismiss();
+            
         }
         useEffect(()=>{
             fetchData();
@@ -106,7 +109,8 @@ const TestNow: React.FC = () => {
 
             };
             setUserResponse(updatedUserResponse);
-            setsubforprocessing(true)
+            setsubforprocessing(true);
+            setMountBackGroundWorker(false);
     }
 
     function sendDatatoBackend(){
@@ -154,6 +158,7 @@ const TestNow: React.FC = () => {
                     <IonRow  className='flex items-center justify-center'>
                         <IonCol  size='12' sizeMd='8' sizeLg='6' sizeXl='6'>
                             <IonCard className='flex flex-col justify-center items-center p-4'>
+                               {mountbackgroundworker && <BackgroundLogger/>}
             {questions.length > 0 && !subforProcessing && (
                     <div className='flex justify-center flex-col items-center'>
                         <div>Question</div>
