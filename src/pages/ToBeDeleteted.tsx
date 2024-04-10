@@ -9,11 +9,9 @@ const ToBeDeleteted: React.FC = () => {
         let index = 0;
         const intervalId = setInterval(() => {
           if (index < jsonData.length) {
-            console.log('Object:', jsonData[index]);
             index++;
           } else {
             clearInterval(intervalId);
-            console.log('Logging complete');
           }
         }, 750);
       };

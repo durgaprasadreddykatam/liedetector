@@ -1,14 +1,17 @@
-import { IonButton, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonItem, IonList, IonPage, IonRow, IonSelect, IonSelectOption, IonText, IonTitle, IonToolbar, useIonLoading,  IonRouterContext, useIonRouter  } from '@ionic/react';
+import { IonButton, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonItem, IonList, IonPage, IonRow, IonSelect, IonSelectOption, IonText, IonTitle, IonToolbar, useIonLoading,  IonRouterContext, useIonRouter, IonIcon  } from '@ionic/react';
 import axios from 'axios';
 import React, { useState } from 'react';
 import config from '../config';
 import { useHistory } from 'react-router-dom';
 import { Preferences } from '@capacitor/preferences';
+import BluetoothDevices from '../components/ BluetoothDevices';
+import { home } from 'ionicons/icons';
 
 
 const Test: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
     const { userId, firstName, lastName, email, expiry } = decodedToken;
     const[deviceselected,setDeveiceSelected]=React.useState(false);
+    const[selecteddevice,setSelectedDeveice]=React.useState("");
     const[connected,setConnected] =React.useState(true);
     const[showQuestionaire,setShowQuestionaire] =React.useState(false);
     const[questionaireSelected,setQuestionaireSelected] =React.useState(false);
@@ -20,6 +23,7 @@ const Test: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
     function handleDeviceSelection(event:CustomEvent){
         if(event.detail.value !=undefined){
             setDeveiceSelected(true);
+            setSelectedDeveice(event.detail.value);
             
         }
 
@@ -75,7 +79,10 @@ const Test: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
         <IonPage>
             <IonHeader>
                 <IonToolbar color='primary'>
+                <div className='flex px-8 items-center'>
                     <IonTitle>Test Now</IonTitle>
+                    <IonIcon onClick={()=>router.push("/home")} size='large' icon={home}></IonIcon>
+                </div>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -86,15 +93,16 @@ const Test: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
                         <IonList>
                             <IonItem>
                                 <IonSelect onIonChange={handleDeviceSelection} placeholder="Select a Device">
-                                <div slot="label">Select Device <IonText color="danger">(Required)</IonText>
+                                <div slot="label">Select Connection <IonText color="danger">(Required)</IonText>
                                 </div>
-                                <IonSelectOption value="device1">Device 1</IonSelectOption>
-                                <IonSelectOption value="device2">Device 2</IonSelectOption>
-                                <IonSelectOption value="device3">device 3</IonSelectOption>
+                                <IonSelectOption value="bluetooth">BlueTooth</IonSelectOption>
+                                <IonSelectOption value="wifi">Wifi</IonSelectOption>
+                                <IonSelectOption value="usb">USB</IonSelectOption>
                                 </IonSelect>
                             </IonItem>
                             </IonList>
-                            <IonButton onClick={connectDevice} disabled={deviceselected ? false:true}>connect to Device</IonButton>
+                            {selecteddevice ==='bluetooth'&& <BluetoothDevices/>}
+                            {(selecteddevice !='bluetooth' && selecteddevice !='')  && <IonButton onClick={connectDevice} disabled={deviceselected ? false:true}>Scan</IonButton>}
                             {connected && <IonButton className='mt-8' onClick={()=>{setShowQuestionaire(true)}} >Proceed</IonButton>}
                         </IonCard>
                         {showQuestionaire && <IonCard className="flex flex-col p-2">

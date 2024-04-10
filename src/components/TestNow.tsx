@@ -1,5 +1,5 @@
 import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonHeader, IonInput, IonPage, IonRow, IonTitle, IonToolbar, useIonLoading, useIonRouter } from '@ionic/react';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { RouteComponentProps } from 'react-router-dom';
 import Questions from './Questions';
 import axios from 'axios';
@@ -16,7 +16,7 @@ const TestNow: React.FC = () => {
     const [answer, setAnswer] = useState<string>('');
     const[timeStamp,setTimeStamp]=useState(new Date());
     const [present, dismiss] = useIonLoading(); 
-    const [mountbackgroundworker,setMountBackGroundWorker]=useState(true);
+    const [mountbackgroundworker,setMountBackGroundWorker]=useState(false);
     const [questions,setQuestions] =useState([{
         question:"",
         questionId:"",
@@ -45,6 +45,7 @@ const TestNow: React.FC = () => {
         const fetchData = async () => {
             present("Fetching data")
             const ret = await Preferences.get({ key: 'questions' });
+            dismiss();
             if(ret.value && typeof ret.value==='string'){
                 const storedData=JSON.parse(ret.value);
                     setQuestions(storedData.questions);
@@ -52,19 +53,19 @@ const TestNow: React.FC = () => {
                         userId:storedData.userId,
                         sessionId:storedData.sessionId
                     })
-                    dismiss();
-                
+                    setMountBackGroundWorker(true);
             }
             
         }
         useEffect(()=>{
-            fetchData();
-        },[])
+                fetchData();
+        },[data.sessionId])
   
  
     const handleInputChange = (e:any) => {
         setAnswer(e.target.value);
     };
+
 
     const nextQuestion = () => {
             const formatted_TimeStamp = timeStamp.toISOString().slice(0, 19).replace('T', ' ');
@@ -158,7 +159,7 @@ const TestNow: React.FC = () => {
                     <IonRow  className='flex items-center justify-center'>
                         <IonCol  size='12' sizeMd='8' sizeLg='6' sizeXl='6'>
                             <IonCard className='flex flex-col justify-center items-center p-4'>
-                               {mountbackgroundworker && <BackgroundLogger/>}
+                               {mountbackgroundworker && <BackgroundLogger sessionId={data.sessionId}/>}
             {questions.length > 0 && !subforProcessing && (
                     <div className='flex justify-center flex-col items-center'>
                         <div>Question</div>

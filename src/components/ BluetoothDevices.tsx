@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
 import { IonButton, IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import { BleClient } from '@capacitor-community/bluetooth-le';
+import { BleClient, numberToUUID } from '@capacitor-community/bluetooth-le';
+const MOBILESERVICE = numberToUUID(0xFC94);
 
 const BluetoothDevices: React.FC = () => {
     const [connectedDevice, setConnectedDevice] = useState<any>(null);
     const connectToDevice = async (): Promise<void> => {
         try {
             await BleClient.initialize();
-            const device = await BleClient.requestDevice({});
+            
+            const device = await BleClient.requestDevice(
+                {
+                }
+            );
             const onDisconnect = (deviceId: string) => {
                 setConnectedDevice(null); 
               };
@@ -29,15 +34,9 @@ const BluetoothDevices: React.FC = () => {
   };
 
     return (
-        <IonPage>
-            <IonHeader>
-                <IonToolbar>
-                    <IonTitle>Page Title</IonTitle>
-                </IonToolbar>
-            </IonHeader>
-            <IonContent className="ion-padding">
-                <IonButton onClick={connectToDevice}>View Available devices</IonButton>
-                {connectedDevice && (
+    <>
+        <IonButton onClick={connectToDevice}>Scan Available devices</IonButton>
+        {connectedDevice && (
                     <div>
                         <h2>Connected Device:</h2>
                         <div className='flex p-4 justify-between'>
@@ -47,9 +46,8 @@ const BluetoothDevices: React.FC = () => {
                         
                     </div>
                 )}
-            </IonContent>
-        </IonPage>
-    );
+    </>
+     );
 };
 
 export default BluetoothDevices;

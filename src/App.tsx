@@ -31,6 +31,7 @@ import Viewintro from './pages/Viewintro';
 import Test from './pages/Test';
 import TestNow from './components/TestNow';
 import BluetoothDevices from './components/ BluetoothDevices';
+import PredictionHistory from './pages/PredictionHistory';
 
 
 setupIonicReact();
@@ -39,9 +40,9 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonRouterOutlet onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
-        {/* <Route exact path="/">
+        <Route exact path="/">
           <Login/>
-        </Route>  */}
+        </Route> 
         <Route exact path="/login">
           <Login/>
         </Route>
@@ -61,15 +62,19 @@ const App: React.FC = () => (
         <Route exact path="/taketestnow">
           <TestNow/>
         </Route> 
+        
+        <Route exact path="/history">
+          <PredictionHistory/>
+        </Route> 
         {/* //Testing a Bluetooth Device */}
         {/* <Route exact path="/">
           <BluetoothDevices/>
         </Route> */}
 
         {/* //Testing Page  */}
-        <Route exact path="/">
+        {/* <Route exact path="/">
           <ToBeDeleteted/>
-        </Route>
+        </Route> */}
         
         
           

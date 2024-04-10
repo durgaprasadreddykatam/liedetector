@@ -45,7 +45,7 @@ const Validator: React.FC<ValidatorProps> = ({children}) => {
     
     useEffect(() => {
         getToken();
-    }, [])
+    }, [decodedToken.userId])
 
     if (isLoading) {
         return <div>Loading...</div>;

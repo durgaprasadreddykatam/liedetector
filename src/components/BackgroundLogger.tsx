@@ -2,9 +2,11 @@ import { jsonData } from '../components/S1S1eeg';
 import { useEffect } from 'react';
 import axios from 'axios';
 
-const sessionId = '396de7ce-8e59-4504-912b-126a1796c0a0'; 
 
-const BackgroundLogger: React.FC = () => {
+interface BackgroundLoggerProps {
+  sessionId: string;
+}
+const BackgroundLogger: React.FC<BackgroundLoggerProps> = ({sessionId}) => {
   let intervalId: NodeJS.Timeout;
 
   useEffect(() => {
@@ -16,7 +18,6 @@ const BackgroundLogger: React.FC = () => {
           index++;
         } else {
           clearInterval(intervalId);
-          console.log('Logging complete');
         }
       }, 750);
     };
@@ -35,7 +36,6 @@ const BackgroundLogger: React.FC = () => {
       axios.put('http://localhost:8080/eegdata', payload)
         .then(response =>{
           if(response.status === 200){
-            console.log("eeg data sent successfully")
           }
         })
         .catch(error =>{

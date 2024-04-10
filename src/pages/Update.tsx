@@ -2,7 +2,7 @@ import { Preferences } from '@capacitor/preferences';
 import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonPage, IonRow, IonTitle, IonToolbar, useIonLoading, useIonRouter } from '@ionic/react';
 import axios from 'axios';
 import config from '../config';
-import { checkmarkDone } from 'ionicons/icons';
+import { checkmarkDone, home } from 'ionicons/icons';
 import React from 'react';
 import ResetPassword from '../assets/ChangePass.png'
 
@@ -101,7 +101,11 @@ const Update: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
         <IonPage>
             <IonHeader>
                 <IonToolbar color={'primary'}>
+                <div className='flex px-8 items-center'>
                     <IonTitle >Update Personal Information</IonTitle>
+                    <IonIcon onClick={()=>router.push("/home")} size='large' icon={home}></IonIcon>
+                </div>
+                    
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">
