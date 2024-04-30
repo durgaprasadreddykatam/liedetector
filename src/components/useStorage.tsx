@@ -25,6 +25,7 @@ export function useStorage (userId:string){
     const [storedTrainTruth,SetStoredTrainTruth] = React.useState<eegdata[]>([]);
     const [storedTestLie,SetStoredTestLie] = React.useState<eegdata[]>([]);
     const [storedTestTruth,SetStoredTestTruth] = React.useState<eegdata[]>([]);
+    const apiUrl = import.meta.env.VITE_API_URL_JAVA;
 
     useEffect(()=>{
         const initStorage = async () =>{
@@ -59,7 +60,7 @@ export function useStorage (userId:string){
 
     const fetchData = async (store: Storage) =>{
         try {
-            const response = await axios.get(`http://localhost:8080/mockData/getData?userId=${userId}`);
+            const response = await axios.get(`${apiUrl}/mockData/getData?userId=${userId}`);
             if(response.status === 200){
                 const datalistTrainLie = response.data.trainLie;
                 const datalistTrainTruth = response.data.trainTruth;

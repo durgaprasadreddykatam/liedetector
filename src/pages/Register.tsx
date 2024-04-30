@@ -7,6 +7,7 @@ import { Preferences } from '@capacitor/preferences';
 import createAccountpng from '../assets/createAccount.png'
 
 const Register: React.FC = () => {
+    const apiUrl = import.meta.env.VITE_API_URL_JAVA;
     const router=useIonRouter();
     const [present, dismiss] = useIonLoading(); 
     const [formData, setFormData] = React.useState({
@@ -45,7 +46,7 @@ const Register: React.FC = () => {
     }
     else{
         present("Creating Account...")
-        axios.post(`${config.API_ADDRESS}/register`, {
+        axios.post(`${apiUrl}/register`, {
         "firstName": formData.firstName,
         "lastName": formData.lastName,
         "email": formData.email,
