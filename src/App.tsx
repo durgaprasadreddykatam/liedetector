@@ -1,4 +1,5 @@
 import {  Route } from 'react-router-dom';
+import { RouteComponentProps } from 'react-router';
 import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Login from './pages/Login';
@@ -16,7 +17,7 @@ import React from 'react';
 const App: React.FC = () => (
   <IonApp>
   <IonReactRouter>
-    <IonRouterOutlet onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} >
+    <IonRouterOutlet onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}}>
       <Route path="/">
         <Login/>
       </Route> 
