@@ -25,11 +25,12 @@ interface Session {
 
 
 const PredictionHistory: React.FC<{ decodedToken: UserDetails }> = ({ decodedToken }) => {
+    const apiUrl = import.meta.env.VITE_API_URL_JAVA;
     const router = useIonRouter();
     const[data,setData]=useState<Session[]>([]);
     useEffect(()=>{
         
-        axios.get('http://localhost:8080/api/fetchUserTestSessions', { params: {userId: decodedToken.userId}})
+        axios.get(`${apiUrl}/api/fetchUserTestSessions`, { params: {userId: decodedToken.userId}})
     .then(response=>{ setData(response.data); })
     .catch(error=>{
         alert("someThing Went Wrong Please try after Sometime");

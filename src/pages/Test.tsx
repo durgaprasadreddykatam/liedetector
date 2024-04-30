@@ -10,6 +10,7 @@ import ImageTest from './ImageTest';
 
 
 const Test: React.FC<{ decodedToken: UserDetails }> = ({ decodedToken }) => {
+    const apiUrl = import.meta.env.VITE_API_URL_JAVA;
     const[deviceselected,setDeveiceSelected]=useState(false);
     const[selecteddevice,setSelectedDeveice]=useState("");
     const[connected,setConnected] =useState(true);
@@ -47,7 +48,7 @@ const Test: React.FC<{ decodedToken: UserDetails }> = ({ decodedToken }) => {
             const formattedTimeStamp = currentTimeStamp.toISOString().slice(0, 19).replace('T', ' ');
     
             present("Setting Up Everything")
-                axios.post(`${config.API_ADDRESS1}/generateSession`, {
+                axios.post(`${apiUrl}/generateSession`, {
                     "userId":decodedToken.userId,
                     "startTimeStamp":formattedTimeStamp,
                     "type":questionsFormat,

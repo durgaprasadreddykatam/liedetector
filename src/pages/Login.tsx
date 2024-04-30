@@ -7,6 +7,8 @@ import config from '../config';
 import { Preferences } from '@capacitor/preferences';
 
 const Login: React.FC = () => {
+  const apiUrl = import.meta.env.VITE_API_URL_JAVA;
+  console.log(apiUrl)
  
 
   const router = useIonRouter();
@@ -40,7 +42,7 @@ function SubmitformData(e:any){
   }
   else {
     present("Logging in ....")
-    axios.post(`${config.API_ADDRESS}/login`, {
+    axios.post(`${apiUrl}/login`, {
       "email": formData.email,
       "password": formData.password
     })

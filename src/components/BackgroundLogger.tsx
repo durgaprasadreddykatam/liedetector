@@ -11,7 +11,7 @@ interface BackgroundLoggerProps {
   userId:string
 }
 const BackgroundLogger: React.FC<BackgroundLoggerProps> = ({sessionId,trainorTest,role,userId}) => {
-  console.log("Hello");
+  const apiUrl = import.meta.env.VITE_API_URL_JAVA;
   const {getTrainLie,getTrainTruth,getTestLie,getTestTruth} =useStorage(userId);
   const data = role === "Truth Teller" 
     ? (trainorTest ==='Train' ? getTrainTruth() : getTestTruth())
@@ -50,7 +50,7 @@ const BackgroundLogger: React.FC<BackgroundLoggerProps> = ({sessionId,trainorTes
         trainorTest:trainorTest,
         eegdata: [...data]
       };
-      axios.put('http://localhost:8080/eegdata', payload)
+      axios.put(`${apiUrl}/eegdata`, payload)
         .then(response =>{
           if(response.status === 200){
           }

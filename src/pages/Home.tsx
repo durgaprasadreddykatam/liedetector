@@ -13,6 +13,7 @@ import TestLink from '../components/TestLink';
 
 
 const Home: React.FC<{ decodedToken: UserDetails }> = ({ decodedToken }) => {
+    const apiUrl = import.meta.env.VITE_API_URL_JAVA;
     useEffect(()=>{},[])
     const router=useIonRouter();
     const[intro,setIntro] =React.useState(!decodedToken.introSeen);
@@ -20,7 +21,7 @@ const Home: React.FC<{ decodedToken: UserDetails }> = ({ decodedToken }) => {
 
     const finishintro =async () =>{
         setIntro(false);
-        axios.post("http://localhost:8080/api/users/introSeenUpdate",{"userId":decodedToken.userId,"introSeen":true})
+        axios.post(`${apiUrl}/api/users/introSeenUpdate`,{"userId":decodedToken.userId,"introSeen":true})
         .then(response=>{
             if(response.status==200){
                 Preferences.set({

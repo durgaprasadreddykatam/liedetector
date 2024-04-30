@@ -8,7 +8,7 @@ import ResetPassword from '../assets/ChangePass.png'
 import { UserDetails } from '../components/userTypes';
 
 const Update: React.FC<{ decodedToken:UserDetails}> = ({ decodedToken }) => {
-    
+    const apiUrl = import.meta.env.VITE_API_URL_JAVA;
     const router=useIonRouter();
     const [pswrdDisabeld,setPswrdDisabled] =React.useState(true);
     const [present, dismiss] = useIonLoading(); 
@@ -39,7 +39,7 @@ const Update: React.FC<{ decodedToken:UserDetails}> = ({ decodedToken }) => {
             else
             {
                 present("Updating User Details")
-                axios.post(`${config.API_ADDRESS}/update1`, {
+                axios.post(`${apiUrl}/update`, {
                 "firstName": formData.firstName,
                 "lastName": formData.lastName,
                 "email": formData.email
@@ -74,7 +74,7 @@ const Update: React.FC<{ decodedToken:UserDetails}> = ({ decodedToken }) => {
             }
             else{
                 present("Updating User Details and Password")
-                axios.post(`${config.API_ADDRESS}/update`, {
+                axios.post(`${apiUrl}/update`, {
                 "firstName": formData.firstName,
                 "lastName": formData.lastName,
                 "email": formData.email,

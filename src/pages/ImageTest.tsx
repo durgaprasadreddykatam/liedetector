@@ -22,6 +22,8 @@ interface ImageTestProps {
   }
   
   const ImageTest: React.FC<ImageTestProps> = ({ jsonString }) => {
+    const apiUrlJava = import.meta.env.VITE_API_URL_JAVA;
+    const apiUrlpython = import.meta.env.VITE_API_URL_PYTHON
     const router =useIonRouter();
     const [currentIndex, setCurrentIndex] = useState<number>(0);
     const[timeStamp,setTimeStamp]=useState(new Date());
@@ -98,7 +100,7 @@ interface ImageTestProps {
         const currentTimeStamp = new Date();
         const formattedTimeStamp = currentTimeStamp.toISOString().slice(0, 19).replace('T', ' ');
         present("Submitting Data for Processing")
-        axios.post(`${config.API_ADDRESS1}/saveUserResponse`, {
+        axios.post(`${apiUrlJava}/saveUserResponse`, {
             questions: userResponse,
             sessionEndTime:formattedTimeStamp,
             sessionId:data.sessionId,
@@ -118,7 +120,7 @@ interface ImageTestProps {
                       router.push('/home',"forward")
                 }
                 else if(response.data.command){
-                    axios.post("http://127.0.0.1:5000/predict",{
+                    axios.post(`${apiUrlpython}/predict`,{
                         "sessionId":data.sessionId,
                         "userId":data.userId,
                         "assignedNumber":response.data.command,
