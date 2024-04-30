@@ -1,6 +1,5 @@
 import { IonButton, IonCard, IonCardContent, IonCol, IonContent, IonGrid, IonHeader, IonImg, IonInput, IonPage, IonRow, IonTitle, IonToolbar, useIonLoading, useIonRouter } from '@ionic/react';
 import React, { useEffect, useLayoutEffect, useState } from 'react';
-import { RouteComponentProps } from 'react-router-dom';
 import Questions from '../components/Questions';
 import axios from 'axios';
 import config from '../config';
