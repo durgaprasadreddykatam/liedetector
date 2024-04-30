@@ -40,7 +40,7 @@ setupIonicReact();
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonRouterOutlet onPointerOverCapture={undefined} onPointerMoveCapture={undefined}>
+      <IonRouterOutlet >
         <Route exact path="/">
           <Login/>
         </Route> 
