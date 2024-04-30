@@ -1,84 +1,60 @@
-import { Redirect, Route } from 'react-router-dom';
-import { IonApp, IonRouterOutlet, setupIonicReact } from '@ionic/react';
+import {  Route } from 'react-router-dom';
+import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import Login from './pages/Login';
 import '../index.css'
 import Validator from './components/Validator';
-import ToBeDeleteted from './pages/ToBeDeleteted';
-
-/* Core CSS required for Ionic components to work properly */
-import '@ionic/react/css/core.css';
-
-/* Basic CSS for apps built with Ionic */
-import '@ionic/react/css/normalize.css';
-import '@ionic/react/css/structure.css';
-import '@ionic/react/css/typography.css';
-
-// /* Optional CSS utils that can be commented out */
-// import '@ionic/react/css/padding.css';
-// import '@ionic/react/css/float-elements.css';
-// import '@ionic/react/css/text-alignment.css';
-// import '@ionic/react/css/text-transformation.css';
-// import '@ionic/react/css/flex-utils.css';
-// import '@ionic/react/css/display.css';
-
-/* Theme variables */
-import './theme/variables.css';
 import Register from './pages/Register';
 import Home from './pages/Home';
 import Update from './pages/Update';
 import Viewintro from './pages/Viewintro';
 import Test from './pages/Test';
-import BluetoothDevices from './components/ BluetoothDevices';
 import PredictionHistory from './pages/PredictionHistory';
-import ImageTest from './pages/ImageTest';
-import { UserDetails,defaultUserDetails } from './components/userTypes';
-
-
-setupIonicReact();
+import { defaultUserDetails } from './components/userTypes';
+import React from 'react';
 
 const App: React.FC = () => (
   <IonApp>
-    <IonReactRouter>
-      <IonRouterOutlet onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
-        <Route exact path="/">
-          <Login/>
-        </Route> 
-        <Route exact path="/login">
-          <Login/>
-        </Route>
-        <Route exact path="/Register">
-          <Register/>
-        </Route>
-        <Route exact path="/home">
-          <Validator>
-            <Home decodedToken={defaultUserDetails}/>
-          </Validator>
-        </Route>
-        <Route exact path="/taketest">
-          <Validator>
-            <Test decodedToken={defaultUserDetails}/>
-          </Validator>
-        </Route>   
-        
-        <Route exact path="/history">
-          <Validator>
-            <PredictionHistory decodedToken={defaultUserDetails}/>
-          </Validator>
-        </Route> 
-        <Route exact path="/Account">
+  <IonReactRouter>
+    <IonRouterOutlet onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined} >
+      <Route path="/">
+        <Login/>
+      </Route> 
+      <Route path="/login">
+        <Login/>
+      </Route>
+      <Route path="/Register">
+        <Register/>
+      </Route>
+      <Route  path="/home">
         <Validator>
-            <Update decodedToken={defaultUserDetails}/>
-          </Validator>
-        </Route>
-        <Route exact path="/viewintro">
+          <Home decodedToken={defaultUserDetails}/>
+        </Validator>
+      </Route>
+      <Route  path="/taketest">
         <Validator>
-            <Viewintro/>
-          </Validator>
-        </Route>
-      </IonRouterOutlet>
-    </IonReactRouter>
-  </IonApp>
+          <Test decodedToken={defaultUserDetails}/>
+        </Validator>
+      </Route>   
+      
+      <Route  path="/history">
+        <Validator>
+          <PredictionHistory decodedToken={defaultUserDetails}/>
+        </Validator>
+      </Route> 
+      <Route  path="/Account">
+        <Validator>
+          <Update decodedToken={defaultUserDetails}/>
+        </Validator>
+      </Route>
+      <Route  path="/viewintro">
+        <Validator>
+          <Viewintro/>
+        </Validator>
+      </Route>
+    </IonRouterOutlet>
+  </IonReactRouter>
+</IonApp>
 );
 
 export default App;
