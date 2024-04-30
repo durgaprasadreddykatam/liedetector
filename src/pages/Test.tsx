@@ -2,23 +2,25 @@ import { IonButton, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonItem, Io
 import axios from 'axios';
 import React, { useState } from 'react';
 import config from '../config';
-import { useHistory } from 'react-router-dom';
 import { Preferences } from '@capacitor/preferences';
 import BluetoothDevices from '../components/ BluetoothDevices';
 import { home } from 'ionicons/icons';
+import { UserDetails } from '../components/userTypes';
+import ImageTest from './ImageTest';
 
 
-const Test: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
-    const { userId, firstName, lastName, email, expiry } = decodedToken;
-    const[deviceselected,setDeveiceSelected]=React.useState(false);
-    const[selecteddevice,setSelectedDeveice]=React.useState("");
-    const[connected,setConnected] =React.useState(true);
-    const[showQuestionaire,setShowQuestionaire] =React.useState(false);
-    const[questionaireSelected,setQuestionaireSelected] =React.useState(false);
-    const [questionsFormat,setQuestionsFormat] =useState(null);
-    const [present, dismiss] = useIonLoading(); 
+const Test: React.FC<{ decodedToken: UserDetails }> = ({ decodedToken }) => {
+    const[deviceselected,setDeveiceSelected]=useState(false);
+    const[selecteddevice,setSelectedDeveice]=useState("");
+    const[connected,setConnected] =useState(true);
+    const [present, dismiss] = useIonLoading();
+    const[role,setRole] =useState(); 
     const router =useIonRouter();
-    
+    const count=(decodedToken.introTestTakenAsLiar && decodedToken.introTestTakenAsTruthTeller) ? 1 :10
+    const selectRole=(decodedToken.introTestTakenAsLiar && decodedToken.introTestTakenAsTruthTeller) ? "Select Role for Sending Eeg Mock Data" : "Select Roles"
+    const trainOrTest = (decodedToken.introTestTakenAsLiar && decodedToken.introTestTakenAsTruthTeller) ? "Test" : "Train"
+    const [imageTestVisible, setImageTestVisible] = useState(false);
+    const[imageprops,setImageProps] =React.useState<string>("Hello");
 
     function handleDeviceSelection(event:CustomEvent){
         if(event.detail.value !=undefined){
@@ -28,42 +30,54 @@ const Test: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
         }
 
     }
-
-    function handleQuestionSelection(event:CustomEvent){
+    function handleRole(event:CustomEvent){
         if(event.detail.value !=undefined){
-            setQuestionaireSelected(true);
-            setQuestionsFormat(event.detail.value)
+            setRole(event.detail.value)
+            
         }
 
     }
-
     function connectDevice(){
         // handle Device Connection Here and Show Device Connection Status
     }
     function continuetoAnswer(){
+        const questionsFormat="Image";
         if(questionsFormat!=undefined){
             const currentTimeStamp = new Date();
             const formattedTimeStamp = currentTimeStamp.toISOString().slice(0, 19).replace('T', ' ');
     
-            present("Updating User Details and Password")
+            present("Setting Up Everything")
                 axios.post(`${config.API_ADDRESS1}/generateSession`, {
-                    "userId":userId,
+                    "userId":decodedToken.userId,
                     "startTimeStamp":formattedTimeStamp,
                     "type":questionsFormat,
-                    "count":10
+                    "count":count,
+                    "role":role,
+                    "trainOrTest":trainOrTest
                 })
                 .then(response => {
                     if(response.status === 200){
-                        Preferences.set({
-                            key:"questions",
-                            value:JSON.stringify({
-                                 questions:response.data.questions,
-                                 userId:userId,
-                                 sessionId:response.data.sessionId
-                            })
-                        })
                         dismiss();
-                        router.push("/taketestnow",'root')
+                        const string =JSON.stringify({questions:response.data.questions,userId:decodedToken.userId,sessionId:response.data.sessionId,role:role,trainOrTest:trainOrTest})
+                        setImageProps(string);
+                        setImageTestVisible(true);
+                        // Preferences.set({
+                        //     key:"questions",
+                        //     value:JSON.stringify({
+                        //          questions:response.data.questions,
+                        //          userId:decodedToken.userId,
+                        //          sessionId:response.data.sessionId,
+                        //          role:role,
+                        //          trainOrTest:trainOrTest
+                        //     })
+                            
+                        // })
+                        // .then(() => {
+                        //     dismiss();
+                        //     router.push("/imagetest",'root')
+                        //   });
+                        // dismiss();
+                        
 
                     }
                     })
@@ -76,7 +90,8 @@ const Test: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
 
     }
     return (
-        <IonPage>
+        <>
+        {!imageTestVisible &&<IonPage>
             <IonHeader>
                 <IonToolbar color='primary'>
                 <div className='flex px-8 items-center'>
@@ -103,31 +118,39 @@ const Test: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
                             </IonList>
                             {selecteddevice ==='bluetooth'&& <BluetoothDevices/>}
                             {(selecteddevice !='bluetooth' && selecteddevice !='')  && <IonButton onClick={connectDevice} disabled={deviceselected ? false:true}>Scan</IonButton>}
-                            {connected && <IonButton className='mt-8' onClick={()=>{setShowQuestionaire(true)}} >Proceed</IonButton>}
-                        </IonCard>
-                        {showQuestionaire && <IonCard className="flex flex-col p-2">
-                        <IonList>
+                            {(!decodedToken.introTestTakenAsLiar || !decodedToken.introTestTakenAsTruthTeller) && <IonList>
                             <IonItem>
-                                <IonSelect onIonChange={handleQuestionSelection} placeholder="Select a Device">
-                                <div slot="label">Select Format <IonText color="danger">(Required)</IonText>
-                                </div>
-                                <IonSelectOption value="Image">Pictures</IonSelectOption>
-                                <IonSelectOption value="Random">Random Questions</IonSelectOption>
-                                <IonSelectOption value="Arithmetic">Calculative</IonSelectOption>
+                                <IonSelect onIonChange={handleRole} placeholder="Select a Role">
+                                <div slot="label">Select Roles <IonText color="danger">(Required)</IonText> </div>
+                                    <IonSelectOption value="Truth Teller" disabled={decodedToken.introTestTakenAsTruthTeller}>Truth Teller</IonSelectOption>
+                                    <IonSelectOption value="Liar" disabled={decodedToken.introTestTakenAsLiar}>Liar</IonSelectOption>
                                 </IonSelect>
-                            </IonItem>
-                            </IonList>
-                            <IonButton onClick={continuetoAnswer} disabled={questionaireSelected ? false:true}>Continue</IonButton>
+                                </IonItem>
+                            </IonList>}
 
-                        </IonCard>}
-
+                            {/* case where intro Test is Completed */}
+                            {(decodedToken.introTestTakenAsLiar && decodedToken.introTestTakenAsTruthTeller) && <IonList>
+                            <IonItem>
+                                <IonSelect onIonChange={handleRole} placeholder="Select Role for Sending Eeg Mock Data">
+                                <div slot="label">Select Role for Sending Eeg Mock Data <IonText color="danger">(Required)</IonText> </div>
+                                    <IonSelectOption value="Truth Teller" >Truth Teller</IonSelectOption>
+                                    <IonSelectOption value="Liar" >Liar</IonSelectOption>
+                                </IonSelect>
+                                </IonItem>
+                            </IonList>}
+                            {connected && <IonButton className='mt-8' onClick={continuetoAnswer} disabled={role === undefined} >Proceed</IonButton>}
+                        </IonCard>
                     </IonCol>
+
                 </IonRow>
             </IonGrid>
             </IonContent>
             
             
-        </IonPage>
+        </IonPage>}
+        {imageTestVisible && <ImageTest jsonString={imageprops} />}
+    </>
+        
     );
 };
 

@@ -1,28 +1,43 @@
-import { IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import React from 'react';
+import { IonButtons, IonContent, IonHeader, IonIcon, IonMenu, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonRouter } from '@ionic/react';
+import React, { useEffect } from 'react';
 import Homeicon from '../../public/favicon.png';
 import { personOutline} from 'ionicons/icons';
 import Menu from './Menu';
 import Intro from '../components/Intro';
+import axios from 'axios';
+import { Preferences } from '@capacitor/preferences';
+import { UserDetails,defaultUserDetails } from '../components/userTypes';
+import { useStorage } from '../components/useStorage';
+import Calib from '../components/Calib';
+import TestLink from '../components/TestLink';
 
 
-const Home: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
-   
-    const { userId, firstName, lastName, email, expiry } = decodedToken;
-    const[intro,setIntro] =React.useState(true);
+const Home: React.FC<{ decodedToken: UserDetails }> = ({ decodedToken }) => {
+    useEffect(()=>{},[])
+    const router=useIonRouter();
+    const[intro,setIntro] =React.useState(!decodedToken.introSeen);
+    useStorage(decodedToken.userId);
 
     const finishintro =async () =>{
         setIntro(false);
+        axios.post("http://localhost:8080/api/users/introSeenUpdate",{"userId":decodedToken.userId,"introSeen":true})
+        .then(response=>{
+            if(response.status==200){
+                Preferences.set({
+                    key:'token',
+                    value:response.data.token
+                  })
+
+            }
+        })
+        .catch(error=>{
+            console.log(error);
+        })
+        router.push('/home')
 
         // Update in db that user has seen intro
         // push the user to Take initial Test
     }
-   
-   
-    
-    
-
-    
     return (
         <>
         <Menu />
@@ -42,13 +57,15 @@ const Home: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
             </IonHeader>
             <IonContent className="ion-padding">
                 <div className='flex justify-center mt-4 font-bold'>
-                    <div className='font-xl text-lg'>Welcome {firstName} {lastName}</div>
+                    <div className='font-xl text-lg'>Welcome {decodedToken.firstName} {decodedToken.lastName}</div>
                 </div>
                 {/* Intro Display */}
 
                 {intro &&
                     <Intro onFinish={finishintro}/>
                 }
+                {!intro  && <Calib decodedToken={decodedToken}/>}
+                {(decodedToken.introTestTakenAsLiar && decodedToken.introTestTakenAsTruthTeller) && <TestLink/>}
                 
             </IonContent>
         </IonPage></>

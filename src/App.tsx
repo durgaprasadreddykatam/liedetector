@@ -32,6 +32,8 @@ import Test from './pages/Test';
 import TestNow from './components/TestNow';
 import BluetoothDevices from './components/ BluetoothDevices';
 import PredictionHistory from './pages/PredictionHistory';
+import ImageTest from './pages/ImageTest';
+import { UserDetails,defaultUserDetails } from './components/userTypes';
 
 
 setupIonicReact();
@@ -51,38 +53,29 @@ const App: React.FC = () => (
         </Route>
         <Route exact path="/home">
           <Validator>
-            <Home decodedToken={undefined}/>
+            <Home decodedToken={defaultUserDetails}/>
           </Validator>
         </Route>
         <Route exact path="/taketest">
           <Validator>
-            <Test decodedToken={undefined}/>
+            <Test decodedToken={defaultUserDetails}/>
           </Validator>
         </Route>  
         <Route exact path="/taketestnow">
           <TestNow/>
         </Route> 
+        <Route exact path="/imagetest">
+          <ImageTest/>
+        </Route> 
         
         <Route exact path="/history">
-          <PredictionHistory/>
+          <Validator>
+            <PredictionHistory decodedToken={defaultUserDetails}/>
+          </Validator>
         </Route> 
-        {/* //Testing a Bluetooth Device */}
-        {/* <Route exact path="/">
-          <BluetoothDevices/>
-        </Route> */}
-
-        {/* //Testing Page  */}
-        {/* <Route exact path="/">
-          <ToBeDeleteted/>
-        </Route> */}
-        
-        
-          
-        
-
         <Route exact path="/Account">
         <Validator>
-            <Update decodedToken={undefined}/>
+            <Update decodedToken={defaultUserDetails}/>
           </Validator>
         </Route>
         <Route exact path="/viewintro">

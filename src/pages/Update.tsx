@@ -5,16 +5,17 @@ import config from '../config';
 import { checkmarkDone, home } from 'ionicons/icons';
 import React from 'react';
 import ResetPassword from '../assets/ChangePass.png'
+import { UserDetails } from '../components/userTypes';
 
-const Update: React.FC<{ decodedToken: any }> = ({ decodedToken }) => {
-    const { userId, firstName, lastName, email, expiry } = decodedToken;
+const Update: React.FC<{ decodedToken:UserDetails}> = ({ decodedToken }) => {
+    
     const router=useIonRouter();
     const [pswrdDisabeld,setPswrdDisabled] =React.useState(true);
     const [present, dismiss] = useIonLoading(); 
     const [formData, setFormData] = React.useState({
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
+        firstName: decodedToken.firstName,
+        lastName: decodedToken.lastName,
+        email: decodedToken.email,
         password: '',
         confirmPassword: ''
       });

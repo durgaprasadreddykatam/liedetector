@@ -50,9 +50,11 @@ function SubmitformData(e:any){
           key:'token',
           value:response.data.token
         })
-        dismiss();
-        router.push('/home',"forward")
-      } 
+        .then(() => {
+          dismiss();
+          router.push('/home');
+        });
+      }
     })
     
     

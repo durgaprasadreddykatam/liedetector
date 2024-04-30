@@ -2,6 +2,7 @@ import React, { ReactNode,useState,useEffect } from 'react';
 import {jwtDecode} from 'jwt-decode'; 
 import { Preferences } from '@capacitor/preferences';
 import { useIonRouter } from '@ionic/react';
+import { UserDetails, defaultUserDetails } from './userTypes'
 
 
 interface ValidatorProps {
@@ -11,13 +12,7 @@ interface ValidatorProps {
 const Validator: React.FC<ValidatorProps> = ({children}) => { 
     const router=useIonRouter();
     const [isLoading, setIsLoading] = useState(true);
-    const [decodedToken,setDecodedToken] = useState({
-        userId:'',
-        firstName: '',
-        lastName: '',
-        email: '',
-        expiry:''
-    });
+    const [decodedToken,setDecodedToken] = useState<UserDetails>(defaultUserDetails);
     const getToken = async () => {
         const token=await Preferences.get({ key: 'token' });
         if (token.value && typeof token.value === 'string') {
@@ -29,7 +24,12 @@ const Validator: React.FC<ValidatorProps> = ({children}) => {
                     firstName: decoded.firstname,
                     lastName: decoded.lastname,
                     email: decoded.email,
-                    expiry:decoded.exp
+                    expiry:decoded.exp,
+                    introSeen:decoded.introSeen,
+                    introTestTakenAsLiar:decoded.introTestTakenAsLiar,
+                    introTestTakenAsTruthTeller:decoded.introTestTakenAsTruthTeller,
+                    assignedNumber:decoded.assignedNumber
+                    
 
                 });
                 setIsLoading(false);
