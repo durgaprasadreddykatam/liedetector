@@ -29,7 +29,6 @@ import Home from './pages/Home';
 import Update from './pages/Update';
 import Viewintro from './pages/Viewintro';
 import Test from './pages/Test';
-import TestNow from './components/TestNow';
 import BluetoothDevices from './components/ BluetoothDevices';
 import PredictionHistory from './pages/PredictionHistory';
 import ImageTest from './pages/ImageTest';
@@ -60,10 +59,7 @@ const App: React.FC = () => (
           <Validator>
             <Test decodedToken={defaultUserDetails}/>
           </Validator>
-        </Route>  
-        <Route exact path="/taketestnow">
-          <TestNow/>
-        </Route>  
+        </Route>   
         
         <Route exact path="/history">
           <Validator>
