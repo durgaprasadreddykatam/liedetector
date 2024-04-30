@@ -63,10 +63,7 @@ const App: React.FC = () => (
         </Route>  
         <Route exact path="/taketestnow">
           <TestNow/>
-        </Route> 
-        <Route exact path="/imagetest">
-          <ImageTest/>
-        </Route> 
+        </Route>  
         
         <Route exact path="/history">
           <Validator>
