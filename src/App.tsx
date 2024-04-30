@@ -1,12 +1,10 @@
-import {  Route } from 'react-router-dom';
-import { RouteComponentProps } from 'react-router';
 import { IonApp, IonRouterOutlet } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
+import { Route } from 'react-router-dom';
 import Login from './pages/Login';
-import '../index.css'
-import Validator from './components/Validator';
 import Register from './pages/Register';
 import Home from './pages/Home';
+import Validator from './components/Validator';
 import Update from './pages/Update';
 import Viewintro from './pages/Viewintro';
 import Test from './pages/Test';
@@ -17,7 +15,7 @@ import React from 'react';
 const App: React.FC = () => (
   <IonApp>
   <IonReactRouter>
-    <IonRouterOutlet onPointerEnterCapture={() => {}} onPointerLeaveCapture={() => {}}>
+    <IonRouterOutlet>
       <Route path="/">
         <Login/>
       </Route> 
