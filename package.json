@@ -12,7 +12,7 @@
     "lint": "eslint"
   },
   "dependencies": {
-    "@capacitor-community/bluetooth-le": "^3.0.0",
+    "@capacitor-community/bluetooth-le": "^3.1.2",
     "@capacitor/android": "next",
     "@capacitor/app": "next",
     "@capacitor/haptics": "next",
