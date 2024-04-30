@@ -29,7 +29,6 @@ import Home from './pages/Home';
 import Update from './pages/Update';
 import Viewintro from './pages/Viewintro';
 import Test from './pages/Test';
-import TestNow from './components/TestNow';
 import BluetoothDevices from './components/ BluetoothDevices';
 import PredictionHistory from './pages/PredictionHistory';
 import ImageTest from './pages/ImageTest';
@@ -41,7 +40,7 @@ setupIonicReact();
 const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
-      <IonRouterOutlet onPointerEnterCapture={undefined} onPointerLeaveCapture={undefined}>
+      <IonRouterOutlet onPointerOverCapture={undefined} onPointerMoveCapture={undefined}>
         <Route exact path="/">
           <Login/>
         </Route> 
@@ -61,12 +60,8 @@ const App: React.FC = () => (
             <Test decodedToken={defaultUserDetails}/>
           </Validator>
         </Route>  
-        <Route exact path="/taketestnow">
-          <TestNow/>
-        </Route> 
-        <Route exact path="/imagetest">
-          <ImageTest/>
-        </Route> 
+        
+        
         
         <Route exact path="/history">
           <Validator>
