@@ -12,7 +12,7 @@ interface Session {
     sessionId: string,
     sessiondate:string,
     sessionStartTime:string,
-    result:string,
+    reslut:string,
     userResponses: UserResponse[] 
     
   }
