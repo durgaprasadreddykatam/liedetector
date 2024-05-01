@@ -39,7 +39,7 @@ const Update: React.FC<{ decodedToken:UserDetails}> = ({ decodedToken }) => {
             else
             {
                 present("Updating User Details")
-                axios.post(`${apiUrl}/update`, {
+                axios.post(`${apiUrl}/api/users/update`, {
                 "firstName": formData.firstName,
                 "lastName": formData.lastName,
                 "email": formData.email
@@ -74,7 +74,7 @@ const Update: React.FC<{ decodedToken:UserDetails}> = ({ decodedToken }) => {
             }
             else{
                 present("Updating User Details and Password")
-                axios.post(`${apiUrl}/update`, {
+                axios.post(`${apiUrl}/api/users/update`, {
                 "firstName": formData.firstName,
                 "lastName": formData.lastName,
                 "email": formData.email,

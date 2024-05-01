@@ -100,7 +100,7 @@ interface ImageTestProps {
         const currentTimeStamp = new Date();
         const formattedTimeStamp = currentTimeStamp.toISOString().slice(0, 19).replace('T', ' ');
         present("Submitting Data for Processing")
-        axios.post(`${apiUrlJava}/saveUserResponse`, {
+        axios.post(`${apiUrlJava}/api/UserTestResponse/saveUserResponse`, {
             questions: userResponse,
             sessionEndTime:formattedTimeStamp,
             sessionId:data.sessionId,

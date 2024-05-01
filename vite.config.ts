@@ -10,6 +10,11 @@ export default defineConfig({
     react(),
     legacy()
   ],
+  optimizeDeps: {
+    exclude: [
+      '/node_modules/.vite/deps/chunk-WJSQF7Z3.js',
+    ],
+  },
   build: {
     outDir: 'build' 
   },

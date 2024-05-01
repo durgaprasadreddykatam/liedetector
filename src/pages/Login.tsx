@@ -42,7 +42,7 @@ function SubmitformData(e:any){
   }
   else {
     present("Logging in ....")
-    axios.post(`${apiUrl}/login`, {
+    axios.post(`${apiUrl}/api/users/login`, {
       "email": formData.email,
       "password": formData.password
     })

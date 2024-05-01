@@ -6,6 +6,7 @@ interface Session {
     sessionId: string,
     sessiondate:string,
     sessionStartTime:string,
+    reslut:string
     userResponses: UserResponse[] 
     
   }
@@ -31,6 +32,7 @@ const HistTile:React.FC<HistTileProps> = ({ session })=> {
     };
     const formattedSessionDate = formattedDate(session.sessiondate);
     const formattedStartTime = formattedTime(session.sessionStartTime);
+    console.log(session)
     
     
 
@@ -45,8 +47,7 @@ const HistTile:React.FC<HistTileProps> = ({ session })=> {
                         <span> {formattedStartTime}</span>
                     </div>
                     
-                    <span>Result</span>
-                    <span>Accuracy</span>
+                    <span className='text-red-600'>Result :{session.reslut}</span>
                     <div className='flex justify-end'>
                         {expand && <IonButton  onClick={()=>setExpand(false)}>viewmore</IonButton>}
                     </div>
