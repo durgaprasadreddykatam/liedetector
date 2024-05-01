@@ -46,7 +46,7 @@ const Register: React.FC = () => {
     }
     else{
         present("Creating Account...")
-        axios.post(`${apiUrl}/register`, {
+        axios.post(`${apiUrl}/api/users/register`, {
         "firstName": formData.firstName,
         "lastName": formData.lastName,
         "email": formData.email,

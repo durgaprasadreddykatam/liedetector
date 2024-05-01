@@ -12,6 +12,7 @@ interface Session {
     sessionId: string,
     sessiondate:string,
     sessionStartTime:string,
+    result:string,
     userResponses: UserResponse[] 
     
   }

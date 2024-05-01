@@ -48,7 +48,7 @@ const Test: React.FC<{ decodedToken: UserDetails }> = ({ decodedToken }) => {
             const formattedTimeStamp = currentTimeStamp.toISOString().slice(0, 19).replace('T', ' ');
     
             present("Setting Up Everything")
-                axios.post(`${apiUrl}/generateSession`, {
+                axios.post(`${apiUrl}/api/UserTestResponse/generateSession`, {
                     "userId":decodedToken.userId,
                     "startTimeStamp":formattedTimeStamp,
                     "type":questionsFormat,

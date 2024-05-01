@@ -14,11 +14,13 @@ import TestLink from '../components/TestLink';
 
 const Home: React.FC<{ decodedToken: UserDetails }> = ({ decodedToken }) => {
     const apiUrl = import.meta.env.VITE_API_URL_JAVA;
-    useEffect(()=>{},[])
+    
     const router=useIonRouter();
     const[intro,setIntro] =React.useState(!decodedToken.introSeen);
     useStorage(decodedToken.userId);
-
+    useEffect(() => {
+        
+    }, []);
     const finishintro =async () =>{
         setIntro(false);
         axios.post(`${apiUrl}/api/users/introSeenUpdate`,{"userId":decodedToken.userId,"introSeen":true})
